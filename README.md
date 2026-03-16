@@ -3,13 +3,13 @@
 
 # Commute Zen
 
-Commute Zen is a voice-first news assitant that generates calm, personalized commute briefings from current news across your chosen topics. 
+Commute Zen is a personalised voice-first news assitant that generates calm, personalized commute briefings from current news across your chosen topics. 
 
 It uses Gemini Live for conversation, Gemini models for search + summarization + text-to-speech, and Firebase for authentication and cloud history.
 
+---
 
-
-## Run Locally
+## How to Run Locally
 
 Prerequisites: Ensure you have Node.js (v18 or newer) installed.
 
@@ -37,6 +37,8 @@ npm run dev
 ```text
 http://localhost:3000
 ```
+
+---
 
 ## Agent Architecture
 
@@ -91,6 +93,8 @@ graph TD
     UI -- "Store Summary & Audio" --> Firestore
 ```
 
+---
+
 ## What It Does
 
 - Starts a live voice session with Gemini and asks for your preferred news domains/topics.
@@ -100,6 +104,8 @@ graph TD
 - Stores transcript + audio history in Firestore when signed in.
 - Falls back to local browser storage (IndexedDB) when signed out.
 
+---
+
 ## Tech Stack
 
 - Next.js 15 (App Router) + React 19 + TypeScript
@@ -107,6 +113,8 @@ graph TD
 - Firebase Auth + Firestore
 - Tailwind CSS v4 + Motion (animations)
 - idb-keyval (local fallback history persistence)
+
+---
 
 ## How The Flow Works
 
@@ -118,6 +126,7 @@ graph TD
 6. App saves summary metadata, transcript, and chunked audio:
 	 - Firestore when authenticated
 	 - IndexedDB when anonymous
+---
 
 ## Project Structure
 
@@ -141,6 +150,7 @@ firestore.rules                 # Firestore security rules
 firebase-blueprint.json         # Firestore entity + path blueprint
 firebase-applet-config.json     # Firebase client config
 ```
+----
 
 ## Data Model (Firestore)
 
@@ -154,6 +164,8 @@ Security rules enforce:
 - Owner-only read/write per user path
 - Field validation and size limits
 - Immutable field constraints on updates
+
+---
 
 ## Environment Variables
 
@@ -172,12 +184,16 @@ Reference: `.env.example` includes both keys and comments.
 - `npm run lint` - Run ESLint
 - `npm run clean` - Project clean script as currently configured
 
+---
+
 ## Notes
 
 - Microphone access is required for live voice interaction.
 - Google sign-in popup must be allowed by the browser.
 - If Firestore permissions fail, the app surfaces structured diagnostics through the Error Boundary.
 - Current creation flow is voice/topic driven (despite some UI text mentioning links).
+
+---
 
 ## Troubleshooting
 
