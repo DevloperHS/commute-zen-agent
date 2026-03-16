@@ -120,19 +120,23 @@ graph TD
 
 ```text
 app/
-	globals.css          # Global Tailwind + theme setup
-	layout.tsx           # Root layout, fonts, metadata, ErrorBoundary wrapper
-	page.tsx             # Main UI + Gemini live flow + summary generation logic
+├─ globals.css                  # Global Tailwind + theme setup
+├─ layout.tsx                   # Root layout, fonts, metadata, ErrorBoundary wrapper
+└─ page.tsx                     # Main UI + Gemini live flow + summary generation logic
+
 components/
-	ErrorBoundary.tsx    # Runtime + Firestore-aware UI error boundary
+└─ ErrorBoundary.tsx            # Runtime + Firestore-aware UI error boundary
+
 hooks/
-	use-mobile.ts        # Responsive utility hook
+└─ use-mobile.ts                # Responsive utility hook
+
 lib/
-	firebase.ts          # Firebase app/auth/firestore bootstrap
-	utils.ts             # Utility className merger
-firestore.rules        # Firestore security rules
-firebase-blueprint.json# Firestore entity + path blueprint
-firebase-applet-config.json # Firebase client config
+├─ firebase.ts                  # Firebase app/auth/firestore bootstrap
+└─ utils.ts                     # Utility className merger
+
+firestore.rules                 # Firestore security rules
+firebase-blueprint.json         # Firestore entity + path blueprint
+firebase-applet-config.json     # Firebase client config
 ```
 
 ## Data Model (Firestore)
