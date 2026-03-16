@@ -64,16 +64,25 @@ service cloud.firestore {
       return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
     }
 
+    function isAdmin() {
+      return isAuthenticated() &&
+        (
+          (request.auth.token.email == "devloper.hs2015@gmail.com" && request.auth.token.email_verified == true) ||
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+        );
+    }
+
     // ===============================================================
     // Domain Validators
     // ===============================================================
     
     function isValidUser(data) {
-      return hasOnlyAllowedFields(['uid', 'email', 'createdAt']) &&
+      return hasOnlyAllowedFields(['uid', 'email', 'createdAt', 'role']) &&
              hasRequiredFields(['uid', 'email', 'createdAt']) &&
              data.uid is string && data.uid.size() > 0 && data.uid.size() < 128 &&
              isValidEmail(data.email) && data.email.size() < 256 &&
-             data.createdAt is number;
+             data.createdAt is number &&
+             (!('role' in data) || data.role in ['admin', 'user']);
     }
     
     function isValidHistoryItem(data) {
@@ -99,10 +108,12 @@ service cloud.firestore {
     // ===============================================================
     
     match /users/{userId} {
-      allow read: if isOwner(userId);
-      allow create: if isOwner(userId) && isValidUser(request.resource.data) && uidUnchanged();
-      allow update: if isOwner(userId) && isValidUser(request.resource.data) && uidNotModified() && areImmutableFieldsUnchanged(['createdAt']);
-      allow delete: if isOwner(userId);
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated() && isValidUser(request.resource.data) && 
+                    ((isOwner(userId) && (!('role' in request.resource.data) || request.resource.data.role == 'user')) || isAdmin());
+      allow update: if isAuthenticated() && isValidUser(request.resource.data) && 
+                    ((isOwner(userId) && uidNotModified() && areImmutableFieldsUnchanged(['createdAt', 'role'])) || isAdmin());
+      allow delete: if isAdmin();
       
       match /history/{historyId} {
         allow read: if isOwner(userId);

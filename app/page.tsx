@@ -586,6 +586,12 @@ export default function Page() {
                     hasCalledFetchNewsRef.current = true;
                     const fetchedTopics = (call.args && (call.args as any).topics) ? (call.args as any).topics : "General News";
                     
+                    // Trigger UI immediately before processing
+                    setIsLoading(true);
+                    setTopics(fetchedTopics);
+                    setProgressStep('AI identified topics...');
+                    setProgressPercent(5);
+                    
                     sessionPromise.then(session => {
                       if (call.id) {
                         session.sendToolResponse({
@@ -598,7 +604,6 @@ export default function Page() {
                       }
                     });
                     
-                    setTopics(fetchedTopics);
                     handleFetchNews(fetchedTopics);
                     setTimeout(() => stopLiveSession(), 4000);
                   }
@@ -616,6 +621,12 @@ export default function Page() {
                 hasCalledFetchNewsRef.current = true;
                 const fetchedTopics = (call.args && (call.args as any).topics) ? (call.args as any).topics : "General News";
                 
+                // Trigger UI immediately before processing
+                setIsLoading(true);
+                setTopics(fetchedTopics);
+                setProgressStep('AI identified topics...');
+                setProgressPercent(5);
+                
                 sessionPromise.then(session => {
                   if (call.id) {
                     session.sendToolResponse({
@@ -628,7 +639,6 @@ export default function Page() {
                   }
                 });
                 
-                setTopics(fetchedTopics);
                 handleFetchNews(fetchedTopics);
                 setTimeout(() => stopLiveSession(), 4000);
               }
@@ -667,6 +677,14 @@ export default function Page() {
     if (audioContextRef.current) {
       audioContextRef.current.close();
       audioContextRef.current = null;
+    }
+
+    // If we stopped the session and haven't started a summary yet, 
+    // trigger it now to ensure the modal "pops" as expected.
+    if (!hasCalledFetchNewsRef.current && !isLoading && !audioSrc) {
+      const finalTopics = topics.trim() || "General News";
+      setTopics(finalTopics);
+      handleFetchNews(finalTopics);
     }
   };
 
