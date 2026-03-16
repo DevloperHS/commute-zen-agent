@@ -1,3 +1,6 @@
+<img width="2560" height="1340" alt="1" src="https://github.com/user-attachments/assets/70509c12-0551-47fe-8a63-b2453dc67ef8" />
+
+
 # Commute Zen
 
 Commute Zen is a voice-first news assitant that generates calm, personalized commute briefings from current news across your chosen topics. 
