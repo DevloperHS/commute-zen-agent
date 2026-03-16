@@ -1,0 +1,7 @@
+{
+  "name": "Remix: commute-zen14",
+  "description": "A news agent app that creates personalized audio summaries of news articles based on user select multi-domain for your commute.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

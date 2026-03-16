@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the application",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "HistoryItem": {
+      "title": "HistoryItem",
+      "description": "A generated summary history item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "url": { "type": "string" },
+        "title": { "type": "string" },
+        "date": { "type": "number" },
+        "transcript": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["id", "url", "title", "date", "transcript", "userId"]
+    },
+    "AudioChunk": {
+      "title": "AudioChunk",
+      "description": "A chunk of base64 audio data",
+      "type": "object",
+      "properties": {
+        "index": { "type": "number" },
+        "data": { "type": "string" }
+      },
+      "required": ["index", "data"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles"
+    },
+    "users/{userId}/history/{historyId}": {
+      "schema": { "$ref": "#/entities/HistoryItem" },
+      "description": "User's generated summaries"
+    },
+    "users/{userId}/history/{historyId}/chunks/{chunkId}": {
+      "schema": { "$ref": "#/entities/AudioChunk" },
+      "description": "Chunks of base64 audio data for a summary"
+    }
+  }
+}
