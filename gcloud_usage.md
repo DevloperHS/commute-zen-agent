@@ -97,4 +97,4 @@ graph TD
 
 - **AI Integration**: See `app/page.tsx` for `GoogleGenAI` initialization and tool usage.
 - **Database Logic**: See `app/page.tsx` for Firestore CRUD operations and `lib/firebase.ts` for initialization.
-- **Security**: See `firestore.rules` for how data access is governed on Google Cloud's infrastructure.
+- **Security / config**: See `firestore.rules` and `.env.example` for Firebase web client configuration loaded in `lib/firebase.ts`.

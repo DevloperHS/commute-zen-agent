@@ -20,11 +20,10 @@ Prerequisites: Ensure you have Node.js (v18 or newer) installed.
 npm install
 ```
 
-3. Create a `.env.local` file in the root of your project and add your Gemini API key (you can generate one in Google AI Studio):
+3. Create a `.env.local` file in the project root. Copy `.env.example` and fill in:
 
-```env
-NEXT_PUBLIC_GEMINI_API_KEY="your_actual_gemini_api_key_here"
-```
+   - **Gemini:** `NEXT_PUBLIC_GEMINI_API_KEY` (from [Google AI Studio](https://aistudio.google.com/) or Google Cloud).
+   - **Firebase:** all `NEXT_PUBLIC_FIREBASE_*` values from Firebase Console → Project settings → Your apps → Web app config. Set `NEXT_PUBLIC_FIRESTORE_DATABASE_ID` to `(default)` unless you use a named Firestore database.
 
 4. Start the local development server:
 
@@ -148,7 +147,7 @@ lib/
 
 firestore.rules                 # Firestore security rules
 firebase-blueprint.json         # Firestore entity + path blueprint
-firebase-applet-config.json     # Firebase client config
+.env.example                    # Template for .env.local (Gemini + Firebase)
 ```
 ----
 
@@ -169,20 +168,31 @@ Security rules enforce:
 
 ## Environment Variables
 
-Create a `.env.local` for local development.
+Create `.env.local` for local development (start from `.env.example`).
 
-- `NEXT_PUBLIC_GEMINI_API_KEY` (required): Gemini API key used by the client
-- `APP_URL` (optional for local, used in hosted contexts): app base URL
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NEXT_PUBLIC_GEMINI_API_KEY` | Yes | Gemini client API key |
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | Yes | Firebase web API key |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | Yes | Firebase Auth domain |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | Yes | Firebase project ID |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | Yes | Storage bucket |
+| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | Yes | FCM sender ID |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | Yes | Web app ID |
+| `NEXT_PUBLIC_FIRESTORE_DATABASE_ID` | No | Defaults to `(default)` |
+| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | No | Analytics (if enabled) |
+| `APP_URL` | No | Optional canonical URL for hosted deployments |
 
-Reference: `.env.example` includes both keys and comments.
+Scripts use **`npx`** so CLI versions resolve from `node_modules` without global installs.
 
-## Available Scripts (Extras)
+## Available Scripts
 
-- `npm run dev` - Start local development server
-- `npm run build` - Create production build
-- `npm run start` - Run production server
-- `npm run lint` - Run ESLint
-- `npm run clean` - Project clean script as currently configured
+- `npm run dev` - Next.js dev server (`npx next dev`)
+- `npm run build` - Production build
+- `npm run start` - Production server
+- `npm run lint` - ESLint
+- `npm run clean` - Next.js clean
+- `npm run firebase:emulators` - Local Firestore + Auth emulators (optional)
 
 ---
 
@@ -198,6 +208,7 @@ Reference: `.env.example` includes both keys and comments.
 ## Troubleshooting
 
 - "Gemini API key is missing": verify `.env.local` has `NEXT_PUBLIC_GEMINI_API_KEY` and restart dev server.
+- Firebase initialization error: ensure all required `NEXT_PUBLIC_FIREBASE_*` values are set in `.env.local` (see `.env.example`).
 - Mic button does nothing: check browser mic permissions and HTTPS/localhost context.
 - Sign-in fails or closes: allow popups and confirm Firebase Auth provider setup.
 - History not loading: verify Firestore rules and that authenticated user owns the data path.

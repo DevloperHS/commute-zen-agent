@@ -1,13 +1,14 @@
 {
-  "name": "ai-studio-applet",
+  "name": "commute-zen-agent",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "clean": "next clean"
+    "dev": "npx next dev",
+    "build": "npx next build",
+    "start": "npx next start",
+    "lint": "npx eslint .",
+    "clean": "npx next clean",
+    "firebase:emulators": "npx firebase emulators:start --only firestore,auth"
   },
   "dependencies": {
     "@google/genai": "^1.17.0",
