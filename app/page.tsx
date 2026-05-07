@@ -500,7 +500,7 @@ export default function Page() {
     setError('');
     try {
       const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-      if (!apiKey) throw new Error('Gemini API key is missing. Please ensure it is set in the Secrets panel.');
+      if (!apiKey) throw new Error('Gemini API key is missing. Set NEXT_PUBLIC_GEMINI_API_KEY in .env.local (see .env.example).');
       const ai = new GoogleGenAI({ apiKey });
       
       audioContextRef.current = new AudioContext({ sampleRate: 16000 });
@@ -703,7 +703,7 @@ export default function Page() {
       setProgressPercent(10);
       
       const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-      if (!apiKey) throw new Error('Gemini API key is missing. Please ensure it is set in the Secrets panel.');
+      if (!apiKey) throw new Error('Gemini API key is missing. Set NEXT_PUBLIC_GEMINI_API_KEY in .env.local (see .env.example).');
       const ai = new GoogleGenAI({ apiKey });
 
       // Step 1: Fetch news using googleSearch
